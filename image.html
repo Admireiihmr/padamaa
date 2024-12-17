@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload or Capture Image</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            padding: 20px;
+        }
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .form-group button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            color: #fff;
+            background: #007bff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .form-group button:hover {
+            background: #0056b3;
+        }
+        .image-preview {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .image-preview img {
+            max-width: 100%;
+            max-height: 300px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Upload or Capture Image</h2>
+        <form id="image-form">
+            <!-- Image Capture Input -->
+            <div class="form-group">
+                <label for="capture-image">Capture Image</label>
+                <input type="file" id="capture-image" name="capture-image" accept="image/*" capture="camera">
+            </div>
+
+            <!-- Image Upload Input -->
+            <div class="form-group">
+                <label for="upload-image">Upload Image</label>
+                <input type="file" id="upload-image" name="upload-image" accept="image/*">
+            </div>
+
+            <!-- Submit Button -->
+            <div class="form-group">
+                <button type="submit">Submit Image</button>
+            </div>
+        </form>
+
+        <!-- Image Preview -->
+        <div class="image-preview" id="image-preview">
+            <p>No image selected</p>
+        </div>
+    </div>
+
+    <script>
+        const fileInputs = document.querySelectorAll('#capture-image, #upload-image');
+        const preview = document.getElementById('image-preview');
+
+        // Function to preview image
+        function previewImage(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.innerHTML = `<img src="${e.target.result}" alt="Image Preview">`;
+                };
+                reader.readAsDataURL(file);
+            } else {
+                preview.innerHTML = `<p>No image selected</p>`;
+            }
+        }
+
+        // Add change event listeners for both file inputs
+        fileInputs.forEach(input => input.addEventListener('change', previewImage));
+
+        // Form submit handling
+        document.getElementById('image-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default submission
+            alert("Image submitted successfully!");
+            window.location.href = 'predict.html'; // Redirect to the next page
+        });
+    </script>
+</body>
+</html>

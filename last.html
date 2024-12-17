@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Prediction</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f9f9f9; padding: 20px; }
+        .container { max-width: 500px; margin: 0 auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
+        .container h2 { text-align: center; margin-bottom: 20px; }
+        .form-group { margin-bottom: 15px; }
+        .form-group input[type="file"] { width: 100%; padding: 10px; font-size: 16px; border: 1px solid #ccc; border-radius: 4px; }
+        .form-group button { display: block; width: 100%; padding: 10px; font-size: 16px; color: #fff; background: #007bff; border: none; border-radius: 4px; cursor: pointer; }
+        .form-group button:hover { background: #0056b3; }
+        .image-preview { text-align: center; margin-top: 20px; }
+        .image-preview img { max-width: 100%; max-height: 300px; }
+        .result { margin-top: 20px; text-align: center; }
+        .result p { font-size: 20px; font-weight: bold; }
+        .result span { font-size: 24px; color: #007bff; }
+        .percentage { font-size: 18px; margin: 10px 0; }
+        .percentage span { font-weight: bold; color: #555; }
+        .prediction { font-size: 22px; font-weight: bold; margin-top: 30px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Image Prediction</h2>
+        <form id="prediction-form">
+            <div class="form-group">
+                <label for="upload-image">Upload Image for Prediction</label><br>
+                <input type="file" id="upload-image" name="upload-image" accept="image/*" required>
+            </div>
+
+            <div class="form-group">
+                <button type="submit">Predict Image Grade</button>
+            </div>
+        </form>
+
+        <div class="image-preview" id="image-preview">
+            <p>No image selected</p>
+        </div>
+
+        <!-- Grades and Percentages -->
+        <div class="result" id="prediction-result" style="display: none;">
+            <p>Prediction Percentages:</p>
+            <div class="percentage">
+                <p>Grade 1: <span id="grade-1-percentage">0%</span></p>
+            </div>
+            <div class="percentage">
+                <p>Grade 2: <span id="grade-2-percentage">0%</span></p>
+            </div>
+            <div class="percentage">
+                <p>Grade 3: <span id="grade-3-percentage">0%</span></p>
+            </div>
+            <div class="percentage">
+                <p>Healthy: <span id="healthy-percentage">0%</span></p>
+            </div>
+
+            <!-- Final Prediction -->
+            <div class="prediction">
+                <p id="final-prediction">Final Prediction: </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Image preview for uploaded image
+        document.getElementById('upload-image').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            const preview = document.getElementById('image-preview');
+            const reader = new FileReader();
+
+            if (file) {
+                reader.onload = function(e) {
+                    preview.innerHTML = `<img src="${e.target.result}" alt="Image Preview">`;
+                };
+                reader.readAsDataURL(file);
+            } else {
+                preview.innerHTML = `<p>No image selected</p>`;
+            }
+        });
+
+        // Simulate prediction on form submit
+        document.getElementById('prediction-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent form from submitting normally
+
+            // Randomly choose the grade with the highest percentage (between 70-80%)
+            const highestGradePercentage = Math.floor(Math.random() * 11) + 70; // Random number between 70 and 80
+
+            // The remaining percentage (100% - highest grade percentage) needs to be distributed between the remaining grades
+            const remainingPercentage = 100 - highestGradePercentage;
+
+            // Ensure the remaining percentage is enough to give each of the other grades a non-zero value
+            const minPercentage = 5; // Minimum percentage that a grade can get
+            const remainingForOthers = remainingPercentage - (minPercentage * 2); // Subtract minimum for Grade 1 and Grade 2
+
+            // Distribute the remaining percentage between Grade 1, Grade 2, and Healthy
+            const grade1Percentage = Math.floor(Math.random() * (remainingForOthers / 2)) + minPercentage; // Random value
+            const grade2Percentage = Math.floor(Math.random() * (remainingForOthers - grade1Percentage)) + minPercentage; // Random value
+            const healthyPercentage = remainingForOthers - (grade1Percentage + grade2Percentage) + minPercentage;
+
+            // Assign percentages to grades
+            document.getElementById('grade-1-percentage').textContent = grade1Percentage + '%';
+            document.getElementById('grade-2-percentage').textContent = grade2Percentage + '%';
+            document.getElementById('grade-3-percentage').textContent = highestGradePercentage + '%';
+            document.getElementById('healthy-percentage').textContent = healthyPercentage + '%';
+
+            // Final prediction based on the highest percentage
+            let finalPrediction = 'Grade 3';
+            const percentages = [grade1Percentage, grade2Percentage, highestGradePercentage];
+            const maxIndex = percentages.indexOf(Math.max(...percentages)); // Get the index of the highest percentage
+
+            // Set the final prediction based on the highest percentage
+            if (maxIndex === 0) {
+                finalPrediction = 'Grade 1';
+            } else if (maxIndex === 1) {
+                finalPrediction = 'Grade 2';
+            }
+
+            // Show the final prediction
+            document.getElementById('final-prediction').textContent = 'Final Prediction: ' + finalPrediction;
+            document.getElementById('prediction-result').style.display = 'block';
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register with OTP and Create Profile</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px; }
+        .container { max-width: 500px; margin: 0 auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
+        .container h2 { text-align: center; margin-bottom: 20px; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%; padding: 10px; font-size: 16px; border: 1px solid #ccc; border-radius: 4px; }
+        .form-group textarea { resize: vertical; }
+        .btn { display: block; width: 100%; padding: 10px; font-size: 16px; color: #fff; background: #007bff; border: none; border-radius: 4px; cursor: pointer; }
+        .btn:hover { background: #0056b3; }
+        .hidden { display: none; }
+        .otp-section { display: none; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <!-- Registration Form (Step 1) -->
+    <div class="container" id="register-container">
+        <h2>Registration Form</h2>
+        <form id="register-form">
+            <div class="form-group">
+                <label for="mobile">Mobile No:</label>
+                <input type="tel" id="mobile" name="mobile" placeholder="Enter your mobile number" required>
+            </div>
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" placeholder="Enter your name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+            </div>
+            <div class="form-group">
+                <button type="button" class="btn" id="send-otp">Send OTP</button>
+            </div>
+            <div class="otp-section" id="otp-section">
+                <div class="form-group">
+                    <label for="otp">Enter OTP:</label>
+                    <input type="text" id="otp" name="otp" placeholder="Enter OTP" required>
+                </div>
+                <button type="button" class="btn" id="verify-otp">Verify OTP</button>
+            </div>
+        </form>
+    </div>
+
+   <!-- Profile Creation Form (Step 2) -->
+<div class="container hidden" id="profile-container">
+    <h2>Create Profile</h2>
+    <form id="profile-form">
+        <div class="form-group">
+            <label for="gender">Gender:</label>
+            <select id="gender" name="gender" required>
+                <option value="">Select Gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="dob">Date of Birth:</label>
+            <input type="date" id="dob" name="dob" required>
+        </div>
+        <div class="form-group">
+            <label for="address-line">Address Line:</label>
+            <input type="text" id="address-line" name="address-line" placeholder="Enter address line" required>
+        </div>
+        <div class="form-group">
+            <label for="city">City:</label>
+            <input type="text" id="city" name="city" placeholder="Enter city" required>
+        </div>
+        <div class="form-group">
+            <label for="pincode">Pincode:</label>
+            <input type="text" id="pincode" name="pincode" placeholder="Enter pincode" required>
+        </div>
+        <div class="form-group">
+            <button type="button" class="btn" id="submit-profile">Submit Profile</button>
+        </div>
+    </form>
+</div>
+  <!-- Medical Questionnaire Form (Step 3) -->
+<div class="container hidden" id="medical-container">
+    <h2>Medical Questionnaire</h2>
+    <form id="medical-form">
+        <div class="form-group">
+            <label>Do you have High Blood Pressure?</label><br>
+            <input type="radio" id="bp-yes" name="blood-pressure" value="yes" required>
+            <label for="bp-yes">Yes</label>
+            <input type="radio" id="bp-no" name="blood-pressure" value="no" required>
+            <label for="bp-no">No</label>
+        </div>
+        <div class="form-group">
+            <label>Do you have Diabetes?</label><br>
+            <input type="radio" id="diabetes-yes" name="diabetes" value="yes" required>
+            <label for="diabetes-yes">Yes</label>
+            <input type="radio" id="diabetes-no" name="diabetes" value="no" required>
+            <label for="diabetes-no">No</label>
+        </div>
+        <div class="form-group hidden" id="diabetes-years">
+            <label for="diabetes-duration">How many years have you had Diabetes?</label>
+            <input type="text" id="diabetes-duration" name="diabetes-duration" placeholder="Enter number of years">
+        </div>
+        <div class="form-group hidden" id="foot-ulcers">
+            <label>Do you have ulcers on your foot?</label><br>
+            <input type="radio" id="foot-ulcers-yes" name="foot-ulcers" value="yes">
+            <label for="foot-ulcers-yes">Yes</label>
+            <input type="radio" id="foot-ulcers-no" name="foot-ulcers" value="no">
+            <label for="foot-ulcers-no">No</label>
+        </div>
+        <button type="submit" class="btn">Submit Medical Information   <a href="image.html"></a></button>
+
+    </form>
+    
+    
+</div>
+    
+
+    
+    
+    
+
+
+    <script src="script.js"></script>
+</body>
+</html>

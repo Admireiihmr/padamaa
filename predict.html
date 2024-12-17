@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Prediction</title>
+    <style>
+        /* Basic Styling */
+        body { font-family: Arial, sans-serif; background-color: #f9f9f9; padding: 20px; }
+        .container { 
+            max-width: 500px; margin: 0 auto; background: #fff; 
+            padding: 20px; border-radius: 8px; 
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+        }
+        .container h2 { text-align: center; margin-bottom: 20px; }
+        .form-group { margin-bottom: 15px; }
+        .form-group input[type="file"] {
+            width: 100%; padding: 10px; font-size: 16px;
+            border: 1px solid #ccc; border-radius: 4px;
+        }
+        .form-group button {
+            display: block; width: 100%; padding: 10px; font-size: 16px;
+            color: #fff; background: #007bff; border: none;
+            border-radius: 4px; cursor: pointer; 
+            transition: background 0.3s;
+        }
+        .form-group button:hover { background: #0056b3; }
+        .image-preview { text-align: center; margin-top: 20px; }
+        .image-preview img { max-width: 100%; max-height: 300px; }
+        .result { margin-top: 20px; text-align: center; }
+        .result p { font-size: 20px; font-weight: bold; }
+        .result span { font-size: 24px; color: #007bff; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Image Prediction</h2>
+        <!-- Prediction Form -->
+        <form id="prediction-form" novalidate>
+            <div class="form-group">
+                <label for="upload-image">Upload Image for Prediction</label><br>
+                <input type="file" id="upload-image" name="upload-image" accept="image/*" required>
+            </div>
+            <div class="form-group">
+                <button type="submit" id="submit-btn">Predict Image Grade</button>
+            </div>
+        </form>
+
+        <!-- Image Preview -->
+        <div class="image-preview" id="image-preview">
+            <p>No image selected</p>
+        </div>
+
+        <!-- Prediction Result -->
+        <div class="result" id="prediction-result" style="display: none;">
+            <p>Prediction Result: <span id="prediction-grade">Healthy</span></p>
+        </div>
+    </div>
+
+    <script>
+        // Image preview for uploaded image
+        const uploadInput = document.getElementById('upload-image');
+        const imagePreview = document.getElementById('image-preview');
+        
+        uploadInput.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            const reader = new FileReader();
+
+            if (file) {
+                reader.onload = function(e) {
+                    imagePreview.innerHTML = `<img src="${e.target.result}" alt="Image Preview">`;
+                };
+                reader.readAsDataURL(file);
+            } else {
+                imagePreview.innerHTML = `<p>No image selected</p>`;
+            }
+        });
+
+        // Handle form submission
+        const form = document.getElementById('prediction-form');
+        const submitButton = document.getElementById('submit-btn');
+        const predictionResult = document.getElementById('prediction-result');
+        const predictionGrade = document.getElementById('prediction-grade');
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent form's default submission behavior
+
+            // Disable the button to prevent double submission
+            submitButton.disabled = true;
+            submitButton.textContent = "Processing...";
+
+            // Input validation: Check if an image is selected
+            if (!uploadInput.files.length) {
+                alert("Please upload an image before proceeding.");
+                submitButton.disabled = false;
+                submitButton.textContent = "Predict Image Grade";
+                return;
+            }
+
+            // Simulate a prediction result
+            const grades = ['Grade 1', 'Grade 2', 'Grade 3', 'Healthy'];
+            const randomGrade = grades[Math.floor(Math.random() * grades.length)]; // Random grade for simulation
+
+            // Display the result
+            predictionGrade.textContent = randomGrade;
+            predictionResult.style.display = 'block';
+
+            // Simulate a short delay and then redirect to another page
+            setTimeout(function() {
+                window.location.href = 'last.html'; // Replace with your next page URL
+            }, 2000);
+        });
+    </script>
+</body>
+</html>
